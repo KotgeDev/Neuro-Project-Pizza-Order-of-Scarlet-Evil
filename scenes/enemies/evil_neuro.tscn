@@ -1,0 +1,128 @@
+[gd_scene load_steps=11 format=3 uid="uid://di0fiiex0vk1t"]
+
+[ext_resource type="Script" path="res://scripts/evil_neuro/evil_neuro.gd" id="1_1f0u4"]
+[ext_resource type="PackedScene" uid="uid://cc0ywvget5eil" path="res://scenes/shared/hurtbox.tscn" id="2_du2tl"]
+[ext_resource type="Texture2D" uid="uid://bw3ushevuok5m" path="res://assets/enemies/evil_neuro_boss_idle.png" id="2_v0ubp"]
+[ext_resource type="Texture2D" uid="uid://b2eqi7vhgdv0j" path="res://assets/enemies/cogwheel_sheet.png" id="4_3s14y"]
+
+[sub_resource type="Animation" id="Animation_67xpo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CogwheelSheet:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_7r400"]
+resource_name = "spinning"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CogwheelSheet:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sxibn"]
+_data = {
+"RESET": SubResource("Animation_67xpo"),
+"cogwheel_spin": SubResource("Animation_7r400")
+}
+
+[sub_resource type="Animation" id="Animation_j2el0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_axnw4"]
+resource_name = "idle"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hyrnf"]
+_data = {
+"RESET": SubResource("Animation_j2el0"),
+"idle": SubResource("Animation_axnw4")
+}
+
+[node name="EvilNeuro" type="Node2D" groups=["evil_neuro"]]
+z_index = 1
+script = ExtResource("1_1f0u4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_v0ubp")
+hframes = 8
+
+[node name="Hurtbox" parent="." instance=ExtResource("2_du2tl")]
+collision_layer = 2
+collision_mask = 16
+
+[node name="CollisionPolygon2D" parent="Hurtbox" index="0"]
+polygon = PackedVector2Array(-24, -24, -24, -24, -24, 24, 24, 24, 24, -24)
+
+[node name="CogwheelSheet" type="Sprite2D" parent="."]
+z_index = -1
+texture = ExtResource("4_3s14y")
+hframes = 5
+
+[node name="CogwheelAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_sxibn")
+}
+
+[node name="EvilNeuroAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_hyrnf")
+}
+
+[connection signal="take_damage" from="Hurtbox" to="." method="_on_hurtbox_take_damage"]
+
+[editable path="Hurtbox"]

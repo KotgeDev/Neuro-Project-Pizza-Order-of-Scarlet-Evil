@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://3dl3vqxu2mul"]
+
+[ext_resource type="Script" path="res://scripts/shared/hitbox.gd" id="1_j6a4i"]
+
+[node name="Hitbox" type="Area2D" groups=["hitbox"]]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("1_j6a4i")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

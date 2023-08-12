@@ -1,0 +1,158 @@
+[gd_scene load_steps=12 format=3 uid="uid://c5r8so5u8yyfi"]
+
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_o64st"]
+[ext_resource type="Texture2D" uid="uid://c7lmh7bslhi4m" path="res://assets/player/neuro_player.png" id="2_22jfe"]
+[ext_resource type="Texture2D" uid="uid://c7f71w2vhj40l" path="res://assets/player/neuro_drone_idle_sheet.png" id="3_d4cke"]
+[ext_resource type="PackedScene" uid="uid://cc0ywvget5eil" path="res://scenes/shared/hurtbox.tscn" id="3_m1xq6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k44d8"]
+size = Vector2(22, 51)
+
+[sub_resource type="Animation" id="Animation_liju1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Drone1Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_dt23g"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Drone1Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_73k7x"]
+_data = {
+"RESET": SubResource("Animation_liju1"),
+"idle": SubResource("Animation_dt23g")
+}
+
+[sub_resource type="Animation" id="Animation_cddau"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Drone2Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_3as4b"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Drone2Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ehi84"]
+_data = {
+"RESET": SubResource("Animation_cddau"),
+"idle": SubResource("Animation_3as4b")
+}
+
+[node name="Player" type="CharacterBody2D" groups=["neuro"]]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_o64st")
+
+[node name="NeuroSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_22jfe")
+
+[node name="Drone1Sprite" type="Sprite2D" parent="."]
+position = Vector2(-20, -15)
+texture = ExtResource("3_d4cke")
+hframes = 6
+
+[node name="Drone2Sprite" type="Sprite2D" parent="."]
+position = Vector2(20, -15)
+texture = ExtResource("3_d4cke")
+hframes = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_k44d8")
+
+[node name="ShootTimer" type="Timer" parent="."]
+wait_time = 0.15
+autostart = true
+
+[node name="Drone1IdlePosition" type="Marker2D" parent="."]
+position = Vector2(-20, -15)
+
+[node name="Drone2IdlePosition" type="Marker2D" parent="."]
+position = Vector2(20, -15)
+
+[node name="Drone1AttackPosition" type="Marker2D" parent="."]
+position = Vector2(-12, -29)
+
+[node name="Drone2AttackPosition" type="Marker2D" parent="."]
+position = Vector2(12, -29)
+
+[node name="Carrot1Position" type="Marker2D" parent="."]
+position = Vector2(-14, -29)
+
+[node name="Carrot2Position" type="Marker2D" parent="."]
+position = Vector2(-9, -29)
+
+[node name="Carrot3Position" type="Marker2D" parent="."]
+position = Vector2(10, -29)
+
+[node name="Carrot4Position" type="Marker2D" parent="."]
+position = Vector2(15, -29)
+
+[node name="Hurtbox" parent="." instance=ExtResource("3_m1xq6")]
+collision_layer = 1
+collision_mask = 32
+
+[node name="CollisionPolygon2D" parent="Hurtbox" index="0"]
+position = Vector2(-6, 2)
+polygon = PackedVector2Array(8, 0, 8, -1, 9, -1, 9, -3, 8, -3.04005, 8, -4, 7, -4, 7, -3, 6, -3, 6, -4, 5, -4, 5, -3, 4, -3, 4, -1, 5, -1, 5, 0, 6, 0, 6, 1, 7, 1, 7, 0)
+
+[node name="Drone1Animations" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_73k7x")
+}
+
+[node name="Drone2Animations" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ehi84")
+}
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
+[connection signal="take_damage" from="Hurtbox" to="." method="_on_hurtbox_take_damage"]
+
+[editable path="Hurtbox"]

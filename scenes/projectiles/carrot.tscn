@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://cnao0nkgqyqx3"]
+
+[ext_resource type="Texture2D" uid="uid://b8cect853q5hb" path="res://assets/projectiles/carrot.png" id="1_ebbp2"]
+[ext_resource type="Script" path="res://scripts/projectiles/carrot.gd" id="1_toqju"]
+[ext_resource type="PackedScene" uid="uid://3dl3vqxu2mul" path="res://scenes/shared/hitbox.tscn" id="2_tu0ew"]
+
+[node name="Carrot" type="Node2D"]
+script = ExtResource("1_toqju")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -5)
+texture = ExtResource("1_ebbp2")
+
+[node name="Hitbox" parent="." instance=ExtResource("2_tu0ew")]
+position = Vector2(0, -5)
+collision_layer = 16
+collision_mask = 10
+damage = 1
+
+[node name="CollisionPolygon2D" parent="Hitbox" index="0"]
+polygon = PackedVector2Array(-1, -4, -1, -3, -2, -3, -2, 2, -1, 2, -1, 3, -2, 3, -2, 4, -1, 4, 1, 4, 1, 3, 0, 3, 0, 2, 1, 2, 1, -3, 0, -3, 0, -4)
+
+[connection signal="destroyed" from="Hitbox" to="." method="_self_destruct"]
+
+[editable path="Hitbox"]

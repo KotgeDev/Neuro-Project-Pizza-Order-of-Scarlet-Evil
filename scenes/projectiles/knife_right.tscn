@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://c5b677jtlgkv4"]
+
+[ext_resource type="Script" path="res://scripts/projectiles/knife_right.gd" id="1_pk3lx"]
+[ext_resource type="Texture2D" uid="uid://coq0154qnye7k" path="res://assets/projectiles/knife_right.png" id="2_woj7y"]
+[ext_resource type="PackedScene" uid="uid://3dl3vqxu2mul" path="res://scenes/shared/hitbox.tscn" id="3_3h3sp"]
+
+[node name="knife_right" type="Node2D"]
+script = ExtResource("1_pk3lx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_woj7y")
+
+[node name="Hitbox" parent="." instance=ExtResource("3_3h3sp")]
+collision_layer = 32
+collision_mask = 9
+
+[node name="CollisionPolygon2D" parent="Hitbox" index="0"]
+polygon = PackedVector2Array(6, -2, 6, 1, 16, 1, 16, 0, 15, 0, 15, -1, 13, -1, 13, -2)
+
+[connection signal="destroyed" from="Hitbox" to="." method="_self_destruct"]
+
+[editable path="Hitbox"]

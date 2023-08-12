@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=3 uid="uid://ubpllau5pleh"]
+
+[ext_resource type="Script" path="res://scripts/projectiles/radiation.gd" id="1_jqdmi"]
+[ext_resource type="Texture2D" uid="uid://8iyaj57g5lnm" path="res://assets/projectiles/radiation1_sheet.png" id="2_41uhi"]
+[ext_resource type="PackedScene" uid="uid://3dl3vqxu2mul" path="res://scenes/shared/hitbox.tscn" id="3_l6nlt"]
+
+[sub_resource type="Animation" id="Animation_2q7q6"]
+resource_name = "radiation"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+}
+
+[sub_resource type="Animation" id="Animation_v13g2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4wppm"]
+_data = {
+"RESET": SubResource("Animation_v13g2"),
+"radiation": SubResource("Animation_2q7q6")
+}
+
+[node name="Radiation" type="Node2D"]
+script = ExtResource("1_jqdmi")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_41uhi")
+hframes = 20
+
+[node name="Hitbox" parent="." instance=ExtResource("3_l6nlt")]
+collision_layer = 32
+collision_mask = 1
+
+[node name="CollisionPolygon2D" parent="Hitbox" index="0"]
+polygon = PackedVector2Array(0, -16, -11, -11, -16, 0, -11, 11, 0, 16, 11, 11, 16, 0, 11, -11)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_4wppm")
+}
+
+[editable path="Hitbox"]

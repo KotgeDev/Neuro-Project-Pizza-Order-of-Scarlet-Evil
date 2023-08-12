@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://ddecbgblgeqtb"]
+
+[ext_resource type="PackedScene" uid="uid://3dl3vqxu2mul" path="res://scenes/shared/hitbox.tscn" id="1_sumx8"]
+[ext_resource type="Script" path="res://scripts/projectiles/projectile2.gd" id="1_wpgu8"]
+[ext_resource type="Texture2D" uid="uid://dsyf6601d8he4" path="res://assets/projectiles/projectile2.png" id="2_il0f4"]
+
+[node name="projectile2" type="Node2D"]
+script = ExtResource("1_wpgu8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_il0f4")
+
+[node name="Hitbox" parent="." instance=ExtResource("1_sumx8")]
+collision_layer = 32
+collision_mask = 9
+
+[node name="CollisionPolygon2D" parent="Hitbox" index="0"]
+polygon = PackedVector2Array(-2, -2, -2, 2, 2, 2, 2, -2)
+
+[connection signal="destroyed" from="Hitbox" to="." method="_self_destruct"]
+
+[editable path="Hitbox"]

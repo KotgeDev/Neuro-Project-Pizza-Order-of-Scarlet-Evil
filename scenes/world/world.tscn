@@ -1,0 +1,88 @@
+[gd_scene load_steps=11 format=3 uid="uid://mgbcrmatnb3b"]
+
+[ext_resource type="Script" path="res://scripts/world/world.gd" id="1_dfgoq"]
+[ext_resource type="PackedScene" uid="uid://di0fiiex0vk1t" path="res://scenes/enemies/evil_neuro.tscn" id="2_jatk1"]
+[ext_resource type="PackedScene" uid="uid://c5r8so5u8yyfi" path="res://scenes/player/player.tscn" id="2_olny6"]
+[ext_resource type="PackedScene" uid="uid://m464vxcaotgk" path="res://scenes/ui/hud.tscn" id="4_6lwv5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k3o5h"]
+size = Vector2(16.5, 415.625)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_01pjm"]
+size = Vector2(342, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ixtg"]
+size = Vector2(16, 618)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eyfx6"]
+size = Vector2(16, 617)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rq8tf"]
+size = Vector2(536, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eeigm"]
+size = Vector2(537, 16)
+
+[node name="world" type="Node2D" groups=["world"]]
+script = ExtResource("1_dfgoq")
+metadata/_edit_horizontal_guides_ = [25.0, 425.0]
+metadata/_edit_vertical_guides_ = [350.0]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 350.0
+offset_bottom = 425.0
+color = Color(0, 0, 0, 1)
+
+[node name="CollisionBoundary" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="LeftBoundary" type="CollisionShape2D" parent="CollisionBoundary"]
+position = Vector2(16.75, 233.188)
+shape = SubResource("RectangleShape2D_k3o5h")
+
+[node name="RightBoundary" type="CollisionShape2D" parent="CollisionBoundary"]
+position = Vector2(358.5, 217.625)
+shape = SubResource("RectangleShape2D_k3o5h")
+
+[node name="BottomBoundary" type="CollisionShape2D" parent="CollisionBoundary"]
+position = Vector2(196, 433)
+shape = SubResource("RectangleShape2D_01pjm")
+
+[node name="TopBoundary" type="CollisionShape2D" parent="CollisionBoundary"]
+position = Vector2(179.25, 17)
+shape = SubResource("RectangleShape2D_01pjm")
+
+[node name="ProjectileBoundary" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 0
+
+[node name="RightBoundary" type="CollisionShape2D" parent="ProjectileBoundary"]
+position = Vector2(460, 216)
+shape = SubResource("RectangleShape2D_3ixtg")
+
+[node name="LeftBoundary" type="CollisionShape2D" parent="ProjectileBoundary"]
+position = Vector2(-76, 232.5)
+shape = SubResource("RectangleShape2D_eyfx6")
+
+[node name="BottomBoundary" type="CollisionShape2D" parent="ProjectileBoundary"]
+position = Vector2(200, 533)
+shape = SubResource("RectangleShape2D_rq8tf")
+
+[node name="TopBoundary" type="CollisionShape2D" parent="ProjectileBoundary"]
+position = Vector2(183.5, -85)
+shape = SubResource("RectangleShape2D_eeigm")
+
+[node name="EvilNeuro" parent="." instance=ExtResource("2_jatk1")]
+position = Vector2(187, 81)
+
+[node name="player" parent="." instance=ExtResource("2_olny6")]
+position = Vector2(184, 384)
+
+[node name="HUD" parent="." instance=ExtResource("4_6lwv5")]
+
+[connection signal="destroyed" from="player" to="." method="_on_player_destroyed"]
+[connection signal="return_to_menu" from="HUD" to="." method="_return_to_menu"]
+[connection signal="start_game" from="HUD" to="." method="_new_game"]

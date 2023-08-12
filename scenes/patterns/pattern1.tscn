@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b0hg3fcc878j"]
+
+[ext_resource type="Script" path="res://scripts/patterns/pattern1.gd" id="1_kl44q"]
+
+[node name="Pattern1" type="Node2D"]
+script = ExtResource("1_kl44q")
+metadata/_edit_horizontal_guides_ = [416.0]
+metadata/_edit_vertical_guides_ = [280.0]

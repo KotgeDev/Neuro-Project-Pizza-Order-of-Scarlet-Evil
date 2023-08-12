@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cyryg7c0u1nrt"]
+
+[ext_resource type="Script" path="res://scripts/projectiles/knife_down.gd" id="1_2or88"]
+[ext_resource type="Texture2D" uid="uid://dn33qpl22rsx6" path="res://assets/projectiles/knife_down.png" id="1_utvqp"]
+[ext_resource type="PackedScene" uid="uid://3dl3vqxu2mul" path="res://scenes/shared/hitbox.tscn" id="2_5ck8o"]
+
+[node name="knife_down" type="Node2D"]
+script = ExtResource("1_2or88")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_utvqp")
+
+[node name="Hitbox" parent="." instance=ExtResource("2_5ck8o")]
+collision_layer = 32
+collision_mask = 9
+
+[node name="CollisionPolygon2D" parent="Hitbox" index="0"]
+polygon = PackedVector2Array(-2, 6, -2, 16, -1, 16, -1, 15, 0, 15, 0, 13, 1, 13, 1, 6)
+
+[connection signal="destroyed" from="Hitbox" to="." method="_self_destruct"]
+
+[editable path="Hitbox"]

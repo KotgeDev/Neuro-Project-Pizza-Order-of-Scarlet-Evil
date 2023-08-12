@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://bf5hlmc4eskpc"]
+
+[ext_resource type="Script" path="res://scripts/phases/phase2.gd" id="1_eh382"]
+
+[node name="Phase2" type="Node2D"]
+script = ExtResource("1_eh382")
+
+[node name="LeftPosition" type="Marker2D" parent="."]
+position = Vector2(128, 128)
+
+[node name="RightPosition" type="Marker2D" parent="."]
+position = Vector2(256, 128)
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Timer2" type="Timer" parent="."]
+wait_time = 5.0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Timer2" to="." method="_on_timer2_timeout"]
