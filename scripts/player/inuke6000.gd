@@ -28,7 +28,7 @@ func begin_decay():
     tween.finished.connect(_on_tween_finished)
 
 func add_radiation(): 
-    for i in range(5): 
+    for i in range(10): 
         var radiation = radiation_scene.instantiate()
         world.add_child(radiation)
         radiation.global_position = Vector2(rng.randi_range(25, 350), rng.randi_range(25, 425))

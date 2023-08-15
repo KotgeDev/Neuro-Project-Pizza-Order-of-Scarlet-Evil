@@ -10,4 +10,6 @@ Basically just Touhou controls
 <p>
 Some things to note: 
 You can use the inuke6000 as many times as you want, but it will cause a portion of the map to become covered in radiation every time you use it. 
+You won't be able to fire while the inuke6000 is still exploading
+The small heart is your hitbox 
 </p>
