@@ -17,6 +17,7 @@ metadata/_edit_horizontal_guides_ = [400.0]
 shape = SubResource("CircleShape2D_jbnbb")
 
 [node name="NukeSprite" type="Sprite2D" parent="."]
+visible = false
 modulate = Color(1, 0, 0, 1)
 position = Vector2(-3.57628e-07, -2.38419e-07)
 scale = Vector2(0.0385585, 0.0385585)

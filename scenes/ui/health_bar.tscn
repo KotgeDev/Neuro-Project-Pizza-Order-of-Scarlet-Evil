@@ -1,11 +1,11 @@
 [gd_scene load_steps=4 format=3 uid="uid://ctdv2crkbkbej"]
 
-[ext_resource type="Texture2D" uid="uid://dpclsocncsfbg" path="res://assets/ui/no health.png" id="1_3ct15"]
+[ext_resource type="Texture2D" uid="uid://3gxpa6sq825o" path="res://assets/ui/bar_background.png" id="1_lba5o"]
 [ext_resource type="Script" path="res://scripts/ui/health_bar.gd" id="1_tglxo"]
-[ext_resource type="Texture2D" uid="uid://cobi0h1poy64m" path="res://assets/ui/health.png" id="2_fckyy"]
+[ext_resource type="Texture2D" uid="uid://jqql7hgmwfj5" path="res://assets/ui/bar.png" id="2_d7ly3"]
 
 [node name="HealthBar" type="TextureProgressBar"]
 value = 100.0
-texture_under = ExtResource("1_3ct15")
-texture_progress = ExtResource("2_fckyy")
+texture_under = ExtResource("1_lba5o")
+texture_progress = ExtResource("2_d7ly3")
 script = ExtResource("1_tglxo")

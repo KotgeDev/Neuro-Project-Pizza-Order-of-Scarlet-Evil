@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bc1y4653gyky8"]
+
+[ext_resource type="AudioStream" uid="uid://dgt67s3n3vllo" path="res://resources/dova_Mauve Rhopalocera_master.mp3" id="1_7e02b"]
+
+[node name="BgMusic1" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_7e02b")
+autoplay = true

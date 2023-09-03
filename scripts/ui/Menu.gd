@@ -8,3 +8,6 @@ func _on_option_button_pressed():
 
 func _on_quit_button_pressed():
     get_tree().quit() 
+
+func _ready():
+    RenderingServer.set_default_clear_color(Color("3d181f"))

@@ -8,7 +8,8 @@ signal return_to_menu
 @onready var sprite3 = $Sprite2D3
 @onready var retry_button = $VBoxContainer/RetryButton
 @onready var menu_button = $VBoxContainer/MenuButton
-
+@onready var nuke_timer = $NukeTimer
+@onready var message = $Message
 
 var menu_shown = false  
 var menu_allowed = true 
@@ -23,6 +24,8 @@ func _physics_process(delta):
             hide_menu() 
         else:
             show_menu()
+            
+    nuke_timer.text = "Nuke timer: %0*.*f" % [5, 2, GlobalVariables.neuro.nuke_timer.time_left]
     
     # Maybe rewrite this using signals, idk. 
     if GlobalVariables.neuro.health == 3: 
@@ -46,20 +49,20 @@ func show_game_over():
     
     menu_allowed = false 
     get_tree().paused = true 
-    $Message.text = "Game Over"
-    $Message.show()
+    message.text = "Game Over"
+    message.show()
     await get_tree().create_timer(2).timeout
-    $Message.hide()
+    message.hide()
     retry_button.show()
     menu_button.show()
 
 func show_game_won(): 
     menu_allowed = false 
     get_tree().paused = true 
-    $Message.text = "You Win!"
-    $Message.show()
+    message.text = "You Win!"
+    message.show()
     await get_tree().create_timer(2).timeout
-    $Message.hide()
+    message.hide()
     retry_button.show()
     menu_button.show()
 

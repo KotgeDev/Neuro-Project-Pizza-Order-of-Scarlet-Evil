@@ -1,9 +1,12 @@
-[gd_scene load_steps=12 format=3 uid="uid://c5r8so5u8yyfi"]
+[gd_scene load_steps=15 format=3 uid="uid://c5r8so5u8yyfi"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_o64st"]
 [ext_resource type="Texture2D" uid="uid://c7lmh7bslhi4m" path="res://assets/player/neuro_player.png" id="2_22jfe"]
 [ext_resource type="Texture2D" uid="uid://c7f71w2vhj40l" path="res://assets/player/neuro_drone_idle_sheet.png" id="3_d4cke"]
 [ext_resource type="PackedScene" uid="uid://cc0ywvget5eil" path="res://scenes/shared/hurtbox.tscn" id="3_m1xq6"]
+[ext_resource type="Script" path="res://scripts/states/state_machine.gd" id="5_wksps"]
+[ext_resource type="Script" path="res://scripts/states/player_idle_state.gd" id="6_rcgps"]
+[ext_resource type="Script" path="res://scripts/states/player_nuke_state.gd" id="7_iopu8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k44d8"]
 size = Vector2(22, 51)
@@ -106,6 +109,10 @@ hframes = 6
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_k44d8")
 
+[node name="NukeTimer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+
 [node name="ShootTimer" type="Timer" parent="."]
 wait_time = 0.15
 autostart = true
@@ -151,6 +158,18 @@ libraries = {
 libraries = {
 "": SubResource("AnimationLibrary_ehi84")
 }
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("state")]
+script = ExtResource("5_wksps")
+state = NodePath("PlayerIdleState")
+
+[node name="PlayerIdleState" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("6_rcgps")
+actor = NodePath("../..")
+
+[node name="PlayerNukeState" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("7_iopu8")
+actor = NodePath("../..")
 
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
 [connection signal="take_damage" from="Hurtbox" to="." method="_on_hurtbox_take_damage"]

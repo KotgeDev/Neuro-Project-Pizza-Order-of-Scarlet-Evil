@@ -32,7 +32,6 @@ func move(delta):
     evil_neuro.position = evil_neuro.position.move_toward(destination, delta * speed)
     if evil_neuro.position == destination: 
         if not fired: 
-            # TODO: Figure out if there is a better way to only fire once. 
             fired = true 
             
             var pattern1 = pattern1_scene.instantiate()

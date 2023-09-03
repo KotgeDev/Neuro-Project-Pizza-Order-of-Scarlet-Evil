@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody2D
 
 signal destroyed 
@@ -8,10 +9,11 @@ const DRONE_SPEED = 150
 
 var health = 3
 var speed = DEFAULT_SPEED
+var carrot_scene = preload("res://scenes/projectiles/carrot.tscn")
+
+# Checks 
 var shooting = false
 var drone_moving = false  
-var carrot_scene = preload("res://scenes/projectiles/carrot.tscn")
-var inuke6000_scene = preload("res://scenes/player/inuke6000.tscn")
 
 @onready var drone1_animations = $Drone1Animations
 @onready var drone2_animations = $Drone2Animations
@@ -25,42 +27,30 @@ var inuke6000_scene = preload("res://scenes/player/inuke6000.tscn")
 @onready var carrot2_position = $Carrot2Position
 @onready var carrot3_position = $Carrot3Position
 @onready var carrot4_position = $Carrot4Position
+@onready var neuro_sprite = $NeuroSprite
+@onready var nuke_timer = $NukeTimer
+@onready var sm = $StateMachine as StateMachine 
+@onready var player_idle_state = $StateMachine/PlayerIdleState as PlayerIdleState
+@onready var player_nuke_state = $StateMachine/PlayerNukeState as PlayerNukeState
+
 
 func _ready(): 
     drone1_animations.play("idle")
     drone2_animations.play("idle")
+    
+    player_idle_state.player_nuked.connect(sm.change_state.bind(player_nuke_state))
+    player_nuke_state.nuke_finished.connect(sm.change_state.bind(player_idle_state))
 
 func _physics_process(delta):
     get_input(delta)
-    velocity = velocity.normalized() * speed
-    move_and_slide()
 
 func get_input(delta):     
     velocity = Vector2.ZERO 
-    
-    if Input.is_action_pressed("right"):
-        velocity.x = 1
-    if Input.is_action_pressed("left"):
-        velocity.x = -1
-    if Input.is_action_pressed("down"):
-        velocity.y = 1
-    if Input.is_action_pressed("up"):
-        velocity.y = -1
         
-    if Input.is_action_just_pressed("focus"):
-        enable_focus() 
-    if Input.is_action_just_released("focus"): 
-        disable_focus() 
-    
-    if Input.is_action_just_pressed("shoot"):
-        drone_moving = true 
-        shooting = true
-    if Input.is_action_just_released("shoot"):
-        drone_moving = false 
-        shooting = false 
-        
-    if Input.is_action_just_pressed("nuke"):
-        nuke() 
+    if Input.is_action_pressed("focus"):
+        speed = FOCUS_SPEED 
+    else: 
+        speed = DEFAULT_SPEED 
         
     if drone_moving:
         drone1_sprite.position = drone1_sprite.position.move_toward(drone1_attack_position.position, delta * DRONE_SPEED)
@@ -68,15 +58,6 @@ func get_input(delta):
     else: 
         drone1_sprite.position = drone1_sprite.position.move_toward(drone1_idle_position.position, delta * DRONE_SPEED)
         drone2_sprite.position = drone2_sprite.position.move_toward(drone2_idle_position.position, delta * DRONE_SPEED)
-                
-func enable_focus():
-    speed = FOCUS_SPEED 
-
-func disable_focus():
-    speed = DEFAULT_SPEED 
-    
-func nuke(): 
-    add_child(inuke6000_scene.instantiate())
 
 func shoot(): 
     var carrot1 = carrot_scene.instantiate()
@@ -100,3 +81,7 @@ func _on_hurtbox_take_damage(damage):
     health -= 1 
     if health == 0: 
         destroyed.emit()
+    neuro_sprite.modulate = Color("bb0002")
+    await get_tree().create_timer(0.05).timeout 
+    neuro_sprite.modulate = Color("ffffff")
+

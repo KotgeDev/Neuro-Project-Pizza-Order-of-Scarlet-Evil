@@ -3,11 +3,15 @@ extends Node2D
 var phase1_scene = preload("res://scenes/phases/phase1.tscn") #TODO: CHANGE BACK AFTER TESTING 
 var phase2_scene = preload("res://scenes/phases/phase2.tscn")
 
+@onready var bg_music1 = $bg_music1
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
     GlobalVariables.evil_neuro = $EvilNeuro
     GlobalVariables.neuro = $player
     GlobalVariables.world = self 
+    
+    bg_music1.volume_db = GlobalVariables.music_volume
     
     var phase1 = phase1_scene.instantiate()
     phase1.complete.connect(_on_phase1_complete)

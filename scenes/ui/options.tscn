@@ -11,13 +11,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ho7mu")
+metadata/_edit_vertical_guides_ = [464.0]
+metadata/_edit_horizontal_guides_ = [360.0]
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 200.0
+offset_left = 232.0
 offset_top = 64.0
-offset_right = 303.0
+offset_right = 335.0
 offset_bottom = 104.0
+theme_override_constants/separation = 8
 
 [node name="OptionButton" type="OptionButton" parent="VBoxContainer2"]
 unique_name_in_owner = true
@@ -34,6 +37,11 @@ popup/item_2/id = 2
 popup/item_3/text = "Filtered"
 popup/item_3/id = 3
 
+[node name="HSlider" type="HSlider" parent="VBoxContainer2"]
+layout_mode = 2
+min_value = -20.0
+max_value = 10.0
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
 offset_left = 64.0
@@ -46,16 +54,21 @@ theme_override_constants/separation = 10
 layout_mode = 2
 text = "Difficulty Level"
 
+[node name="Label2" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Music Volume "
+
 [node name="Back" type="Button" parent="."]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(75, 0)
+custom_minimum_size = Vector2(80, 25)
 layout_mode = 2
 offset_left = 464.0
 offset_top = 360.0
-offset_right = 539.0
-offset_bottom = 391.0
+offset_right = 544.0
+offset_bottom = 383.0
 text = "Back
 "
 
 [connection signal="item_selected" from="VBoxContainer2/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="value_changed" from="VBoxContainer2/HSlider" to="." method="_on_h_slider_value_changed"]
 [connection signal="pressed" from="Back" to="." method="_on_back_pressed"]
