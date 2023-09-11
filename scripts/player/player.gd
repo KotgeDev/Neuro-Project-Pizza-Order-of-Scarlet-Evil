@@ -30,21 +30,16 @@ var drone_moving = false
 @onready var neuro_sprite = $NeuroSprite
 @onready var nuke_timer = $NukeTimer
 @onready var sm = $StateMachine as StateMachine 
-@onready var player_idle_state = $StateMachine/PlayerIdleState as PlayerIdleState
-@onready var player_nuke_state = $StateMachine/PlayerNukeState as PlayerNukeState
 
-
-func _ready(): 
+func _ready() -> void: 
+    sm.init(self)
+    
     drone1_animations.play("idle")
     drone2_animations.play("idle")
+
+func _physics_process(delta: float) -> void:
+    sm.physics_process(delta)
     
-    player_idle_state.player_nuked.connect(sm.change_state.bind(player_nuke_state))
-    player_nuke_state.nuke_finished.connect(sm.change_state.bind(player_idle_state))
-
-func _physics_process(delta):
-    get_input(delta)
-
-func get_input(delta):     
     velocity = Vector2.ZERO 
         
     if Input.is_action_pressed("focus"):
@@ -57,9 +52,9 @@ func get_input(delta):
         drone2_sprite.position = drone2_sprite.position.move_toward(drone2_attack_position.position, delta * DRONE_SPEED)
     else: 
         drone1_sprite.position = drone1_sprite.position.move_toward(drone1_idle_position.position, delta * DRONE_SPEED)
-        drone2_sprite.position = drone2_sprite.position.move_toward(drone2_idle_position.position, delta * DRONE_SPEED)
+        drone2_sprite.position = drone2_sprite.position.move_toward(drone2_idle_position.position, delta * DRONE_SPEED)   
 
-func shoot(): 
+func shoot() -> void: 
     var carrot1 = carrot_scene.instantiate()
     var carrot2 = carrot_scene.instantiate() 
     var carrot3 = carrot_scene.instantiate()
@@ -73,11 +68,11 @@ func shoot():
     carrot3.position = carrot3_position.global_position 
     carrot4.position = carrot4_position.global_position 
 
-func _on_shoot_timer_timeout():
+func _on_shoot_timer_timeout() -> void:
     if shooting: 
         shoot() 
 
-func _on_hurtbox_take_damage(damage):
+func _on_hurtbox_take_damage(damage: int) -> void:
     health -= 1 
     if health == 0: 
         destroyed.emit()
